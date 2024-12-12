@@ -1,4 +1,4 @@
 fn main() {
-  let s : &str = "Hello from Ubuntu WSL!";
-  println!("{}", s);
+  let s : &str = "Ubuntu WSL!";
+  println!("Hello from {}", s);
 }
