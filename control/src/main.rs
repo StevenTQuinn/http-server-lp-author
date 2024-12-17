@@ -14,7 +14,7 @@ fn main() {
             println!("WasmEdge 你好!");
         } else if i == 7 {
             println!("こんにちは  WasmEdge!");
-        } else if i < 10 {
+        } else {
             println!("Salve WasmEdge!");
         }
     }
