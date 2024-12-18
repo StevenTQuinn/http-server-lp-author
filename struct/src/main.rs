@@ -1,14 +1,27 @@
 #[derive(Debug)]
+#[derive(PartialEq)]
 enum Lang {
   English,
   Spanish,
   Chinese,
   Texan,
+  Italian,
+  Japanese
 }
 
 struct Greeting {
     message: String,
     lang: Lang,
+}
+
+trait GreetTrait {
+  fn greet(&self) -> String;
+}
+
+impl GreetTrait for Greeting {
+  fn greet(&self) -> String {
+      format!("Greeting in {:?} is \"{}\"", self.lang, self.message)
+  }
 }
 
 fn main() {
@@ -22,8 +35,22 @@ fn main() {
   v.push(g);
   let g : Greeting = Greeting { lang: Lang::Chinese, message: String::from("WasmEdge 你好!") };
   v.push(g);
+  let g : Greeting = Greeting { lang: Lang::Italian, message: String::from("Ciao WasmEdge!") };
+  v.push(g);
+  let g : Greeting = Greeting { lang: Lang::Japanese, message: String::from("こんにちは WasmEdge!") };
+  v.push(g);
 
-  for e in v {
+  println!("Available greetings:");
+  for e in &v {
     println!("{:?} {}", e.lang, e.message);
+  }
+
+  println!();
+  let query_lang = Lang::Japanese;
+  for e in &v {
+    if e.lang == query_lang {
+      println!("{}", e.greet());
+      continue;
+    }
   }
 }
