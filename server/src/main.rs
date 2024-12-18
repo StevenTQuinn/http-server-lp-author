@@ -7,6 +7,7 @@ use tokio::net::TcpListener;
 /// This is our service handler. It receives a Request, routes on its
 /// path, and returns a Future of a Response.
 async fn handle_request(req: Request<Body>) -> Result<Response<Body>, hyper::Error> {
+    println!("Received {} {} request", req.method(), req.uri().path());
     match (req.method(), req.uri().path()) {
         // Serve some instructions at /
         (&Method::GET, "/") => Ok(Response::new(Body::from(
@@ -21,6 +22,16 @@ async fn handle_request(req: Request<Body>) -> Result<Response<Body>, hyper::Err
 
             let reversed_body = whole_body.iter().rev().cloned().collect::<Vec<u8>>();
             Ok(Response::new(Body::from(reversed_body)))
+        }
+
+        (&Method::POST, "/parrot") => {
+            let whole_body = hyper::body::to_bytes(req.into_body()).await?;
+            let result = String::from_utf8(whole_body.into_iter().collect()).expect("");
+
+            let mut parrotted = String::from("You said:");
+            parrotted.push_str(&result);
+
+            Ok(Response::new(Body::from(parrotted)))
         }
 
         // Return the 404 Not Found for other routes.
