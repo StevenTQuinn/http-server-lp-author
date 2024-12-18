@@ -50,7 +50,7 @@ fn main() {
   for e in &v {
     if e.lang == query_lang {
       println!("{}", e.greet());
-      continue;
+      break;
     }
   }
 }
